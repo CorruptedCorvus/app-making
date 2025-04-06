@@ -1,13 +1,33 @@
-
 import React, { useState } from "react";
-import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, TextInput, ScrollView, Button, Switch } from "react-native";
+import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, TextInput, ScrollView, Button, Switch, SafeAreaView } from "react-native";
 import Toast from 'react-native-toast-message';
 
+// facial data
 const rennerFaces = [
-  { id: "1", emotion: "happy", text: "Jeremy Renner feels happy today!", src: require('./assets/images/happyrenner.png') },
-  { id: "2", emotion: "sad", text: "Jeremy Renner feels sad today...", src: require('./assets/images/sadrenner.png') },
-  { id: "3", emotion: "angry", text: "Jeremy Renner is furious!", src: require('./assets/images/angryrenner.png') },
-  { id: "4", emotion: "confused", text: "Jeremy Renner is confused...", src: require('./assets/images/confusedrenner.png') },
+  {
+    id: "1",
+    emotion: "happy",
+    text: "Jeremy Renner feels happy today!",
+    src: require("./assets/images/happyrenner.png"),
+  },
+  {
+    id: "2",
+    emotion: "sad",
+    text: "Jeremy Renner feels sad today...",
+    src: require("./assets/images/sadrenner.png"),
+  },
+  {
+    id: "3",
+    emotion: "angry",
+    text: "Jeremy Renner is furious!",
+    src: require("./assets/images/angryrenner.png"),
+  },
+  {
+    id: "4",
+    emotion: "confused",
+    text: "Jeremy Renner is confused...",
+    src: require("./assets/images/confusedrenner.png"),
+  },
 ];
 
 export default function App() {
@@ -18,22 +38,42 @@ export default function App() {
   const addFace = (face) => {
     if (!selectedFaces.some((item) => item.id === face.id)) {
       setSelectedFaces((prev) => [face, ...prev]);
+      Toast.show({
+        type: 'success',
+        text1: "Expression added!",
+        text2: "You added a new facial expression.",
+        duration: 2000, // Duration in ms
+      });
     }
   };
 
   const removeFace = (id) => {
     setSelectedFaces((prev) => prev.filter((item) => item.id !== id));
+    Toast.show({
+      type: 'error',
+      text1: "Expression removed!",
+      text2: "You removed a facial expression.",
+      duration: 2000, // Duration in ms
+    });
   };
 
-  const toggleSwitch = () => setIsDarkMode(previousState => !previousState);
+  const toggleSwitch = () => setIsDarkMode((prev) => !prev);
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: isDarkMode ? '#333' : '#f5f5f5' }]}>
+    <SafeAreaView
+      style={[
+        styles.container,
+        { backgroundColor: isDarkMode ? "#333" : "#f5f5f5" },
+      ]}
+    >
+      {/* Header */}
       <View style={styles.headerContainer}>
-        <Text style={[styles.header, { color: isDarkMode ? '#fff' : '#000' }]}>Choose an expression:</Text>
+        <Text style={[styles.header, { color: isDarkMode ? "#fff" : "#000" }]}>
+          Choose an expression:
+        </Text>
       </View>
 
-      {/* Input Field */}
+      {/* Text Input */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -43,14 +83,17 @@ export default function App() {
         />
       </View>
 
-      {/* Expression Selection Grid */}
+      {/* Expression Grid */}
       <FlatList
         data={rennerFaces}
         keyExtractor={(item) => item.id}
         numColumns={2}
         style={styles.expressionGrid}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.emojiItem} onPress={() => addFace(item)}>
+          <TouchableOpacity
+            style={styles.emojiItem}
+            onPress={() => addFace(item)}
+          >
             <Image source={item.src} style={styles.emojiImage} />
             <Text style={styles.emojiText}>{item.emotion}</Text>
           </TouchableOpacity>
@@ -65,17 +108,22 @@ export default function App() {
           <View style={styles.selectedItem}>
             <Image source={item.src} style={styles.selectedImage} />
             <Text style={styles.selectedText}>{item.text}</Text>
-            <TouchableOpacity onPress={() => removeFace(item.id)} style={styles.removeButton}>
+            <TouchableOpacity
+              onPress={() => removeFace(item.id)}
+              style={styles.removeButton}
+            >
               <Text style={styles.removeText}>X</Text>
             </TouchableOpacity>
           </View>
         )}
-        ListEmptyComponent={<Text style={styles.emptyText}>No expressions selected.</Text>}
+        ListEmptyComponent={
+          <Text style={styles.emptyText}>No expressions selected.</Text>
+        }
       />
 
-      {/* Dark Mode Switch */}
+      {/* Dark Mode Toggle */}
       <View style={styles.switchContainer}>
-        <Text style={{ color: isDarkMode ? '#fff' : '#000' }}>Dark Mode</Text>
+        <Text style={{ color: isDarkMode ? "#fff" : "#000" }}>Dark Mode</Text>
         <Switch
           trackColor={{ false: "#767577", true: "#81b0ff" }}
           thumbColor={isDarkMode ? "#f5dd4b" : "#f4f3f4"}
@@ -84,87 +132,98 @@ export default function App() {
         />
       </View>
 
-      {/* Button */}
+      {/* Clear Button */}
       <Button title="Clear All" onPress={() => setSelectedFaces([])} />
-    </ScrollView>
+
+      {/* Toast container */}
+      <Toast />
+    </SafeAreaView>
   );
 }
 
+// styling sheet
 const styles = StyleSheet.create({
-  // General container styles
-  container: { 
-    flex: 1, 
-    padding: 20, 
-    backgroundColor: "#f5f5f5" 
+  container: {
+    flex: 1,
+    padding: 20,
   },
-
-  // Selected Faces List
-  selectedList: { 
-    marginTop: 40 
+  headerContainer: {
+    marginTop: 20,
   },
-  selectedItem: { 
-    flexDirection: "row", 
-    alignItems: "center", 
-    backgroundColor: "#fff", 
-    padding: 10, 
-    borderRadius: 10, 
-    marginBottom: 5, 
-    elevation: 3 
+  header: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
-  selectedImage: { 
-    width: 40, 
-    height: 40, 
-    borderRadius: 20, 
-    marginRight: 10 
+  inputContainer: {
+    marginTop: 20,
   },
-  selectedText: { 
-    flex: 1, 
-    fontSize: 16 
+  input: {
+    height: 40,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingLeft: 10,
   },
-  removeButton: { 
-    backgroundColor: "#ff4d4d", 
-    padding: 5, 
-    borderRadius: 15 
+  expressionGrid: {
+    marginTop: 10,
   },
-  removeText: { 
-    color: "#fff", 
-    fontWeight: "bold" 
+  emojiItem: {
+    flex: 1,
+    alignItems: "center",
+    margin: 10,
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 10,
+    elevation: 2,
   },
-  emptyText: { 
-    textAlign: "center", 
-    marginVertical: 20, 
-    color: "#999" 
+  emojiImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
   },
-
-  // Expression Grid
-  header: { 
-    fontSize: 18, 
-    fontWeight: "bold", 
-    marginTop: 50, 
-    marginBottom: 10 
+  emojiText: {
+    marginTop: 5,
+    fontSize: 14,
+    fontWeight: "500",
   },
-  expressionGrid: { 
-    marginTop: 10 
+  selectedItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 5,
+    elevation: 3,
   },
-
-  // Emoji Grid Items
-  emojiItem: { 
-    flex: 1, 
-    alignItems: "center", 
-    margin: 10, 
-    backgroundColor: "#fff", 
-    padding: 10, 
-    borderRadius: 10, 
-    elevation: 2 
+  selectedImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10,
   },
-  emojiImage: { 
-    width: 60, 
-    height: 60, 
-    borderRadius: 30 
+  selectedText: {
+    flex: 1,
+    fontSize: 16,
   },
-  emojiText: { 
-    marginTop: 5, 
-    fontSize: 14, 
-    fontWeight: "500" 
-  }
+  removeButton: {
+    backgroundColor: "#ff4d4d",
+    padding: 5,
+    borderRadius: 15,
+  },
+  removeText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  emptyText: {
+    textAlign: "center",
+    marginVertical: 20,
+    color: "#999",
+  },
+  switchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 20,
+    justifyContent: "space-between",
+  },
 });
