@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, StyleSheet, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 
 import happyFace from './assets/happyrenner.png';
 import sadFace from './assets/sadrenner.png';
@@ -8,62 +8,13 @@ import confusedFace from './assets/confusedrenner.png';
 
 export default function App() {
 
-  const [todos, setTodos] = useState([]);
-  const [newTodo, setNewTodo] = useState("");
-
-  const handleDeleteTodo = (id) => {
-    console.log(id);
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
-
-  const handleSubmit = () => {
-    // check if newTodo is empty before we make it?
-    setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
-    setNewTodo("");
-  };
-
-  const handleToggleCompleted = (id) => {
-    setTodos(
-      todos.map((todo) => {
-        if (todo.id === id) {
-          return { ...todo, completed: !todo.completed };
-        } else {
-          return todo;
-        }
-      })
-    );
-  };
-
-  const [selectedFaces, setSelectedFaces] = useState([]);
-
   const rennerFaces = [
-    {
-      id: '1',
-      emotion: 'happy',
-      text: 'Jeremy Renner feels happy today! :)',
-      src: happyFace,
-    },
-    {
-      id: '2',
-      emotion: 'sad',
-      text: 'Jeremy Renner feels sad today... :(',
-      src: sadFace,
-    },
-    {
-      id: '3',
-      emotion: 'angry',
-      text: 'Jeremy Renner is furious!! >:(',
-      src: angryFace,
-    },
-    {
-      id: '4',
-      emotion: 'confused',
-      text: 'Jeremy Renner is confused...?',
-      src: confusedFace,
-    },
+    { id: "1", emotion: "happy", text: "Jeremy Renner feels happy today!", src: happyFace },
+    { id: "2", emotion: "sad", text: "Jeremy Renner feels sad today...", src: sadFace },
+    { id: "3", emotion: "angry", text: "Jeremy Renner is furious!", src: angryFace },
+    { id: "4", emotion: "confused", text: "Jeremy Renner is confused...", src: confusedFace },
+  ];  
 
-    
-  ];
 
   return (
     <SafeAreaView style={styles.safe}>
