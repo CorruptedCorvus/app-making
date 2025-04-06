@@ -34,6 +34,37 @@ export default function App() {
     );
   };
 
+  const [selectedFaces, setSelectedFaces] = useState([]);
+
+  const rennerFaces = [
+    {
+      id: '1',
+      emotion: 'happy',
+      text: 'Jeremy Renner feels happy today! :)',
+      src: happyFace,
+    },
+    {
+      id: '2',
+      emotion: 'sad',
+      text: 'Jeremy Renner feels sad today... :(',
+      src: sadFace,
+    },
+    {
+      id: '3',
+      emotion: 'angry',
+      text: 'Jeremy Renner is furious!! >:(',
+      src: angryFace,
+    },
+    {
+      id: '4',
+      emotion: 'confused',
+      text: 'Jeremy Renner is confused...?',
+      src: confusedFace,
+    },
+
+    
+  ];
+
   return (
     <SafeAreaView style={styles.safe}>
       <ScrollView contentContainerStyle={styles.container}>
