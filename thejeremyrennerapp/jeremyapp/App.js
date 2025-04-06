@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, StyleSheet, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native';
 
+import happyFace from './assets/happyrenner.png';
+import sadFace from './assets/sadrenner.png';
+import angryFace from './assets/angryrenner.png';
+import confusedFace from './assets/confusedrenner.png';
+
 export default function App() {
 
   const [todos, setTodos] = useState([]);
