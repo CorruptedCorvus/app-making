@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, TextInput, ScrollView, Button, Switch } from "react-native";
-import FastImage from 'react-native-fast-image';
+import Toast from 'react-native-toast-message';
 
 const rennerFaces = [
   { id: "1", emotion: "happy", text: "Jeremy Renner feels happy today!", src: require('./assets/images/happyrenner.png') },
