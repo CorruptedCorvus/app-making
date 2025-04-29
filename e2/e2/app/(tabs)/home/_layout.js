@@ -1,12 +1,11 @@
+import { Stack } from 'expo-router';
 
-
-import { Stack } from "expo-router";
-
-export default function Layout() {
+export default function HomeLayout() {
   return (
     <Stack>
-      <Stack.Screen name="index" options={{ title: "Home" }} />
-      <Stack.Screen name="details" options={{ title: "Details" }} />
+      <Stack.Screen name="_index" options={{ title: 'Home' }} />
+      <Stack.Screen name="_details" options={{ title: 'Expense Details' }} />
+      <Stack.Screen name="category" options={{ title: 'Category' }} />
     </Stack>
   );
 }
